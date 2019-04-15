@@ -1,7 +1,9 @@
 # Message-Passing-Interface
 
 1. http://condor.cc.ku.edu/~grobe/docs/intro-MPI-C.shtml    Examples-([1,2,3,4]) OK.
-2. https://www.mcs.anl.gov/research/projects/mpi/tutorial/mpiintro/ppframe.ht  * Just a handy tutorial
+2. https://people.sc.fsu.edu/~jburkardt/c_src/mpi/mpi.html  * Very Good.
+3. http://www.bu.edu/tech/support/research/training-consulting/online-tutorials/mpi/ * Tutorial
+4. https://www.mcs.anl.gov/research/projects/mpi/tutorial/mpiintro/ppframe.ht  * Just a handy tutorial
 
 
 ##Basic MPI communication routines
