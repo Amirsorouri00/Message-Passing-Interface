@@ -6,7 +6,7 @@
 4. https://www.mcs.anl.gov/research/projects/mpi/tutorial/mpiintro/ppframe.ht  * Just a handy tutorial
 
 
-##Basic MPI communication routines
+## Basic MPI communication routines
 It is important to realize that separate processes share no memory variables. They appear to be using the same variables, but they are really using COPIES of any variable defined in the program.
 As a result, these programs cannot communicate with each other by exchanging information in memory variables. Instead they may use any of a large number of MPI communication routines. The two basic routines are:
 
@@ -47,17 +47,17 @@ MPI_Recv blocks until the data transfer is complete and the received_data variab
 
 
 
-##Collective data movement
+## Collective data movement
 There are several routines for performing collective data distribution tasks:
-####MPI_Bcast
+#### MPI_Bcast
 Broadcast data to other processes 
-####MPI_Gather, MPI_Gatherv
+#### MPI_Gather, MPI_Gatherv
 Gather data from participating processes into a single structure
-####MPI_Scatter, MPI_Scatter
+#### MPI_Scatter, MPI_Scatter
 Break a structure into portions and distribute those portions to other processes
-####MPI_Allgather, MPI_Allgatherv
+#### MPI_Allgather, MPI_Allgatherv
 Gather data from different processes into a single structure that is then sent to all participants (Gather-to-all)
-####MPI_Alltoall, MPI_Alltoallv
+#### MPI_Alltoall, MPI_Alltoallv
 Gather data and then scatter it to all participants (All-to-all scatter/gather)
 The routines with "V" suffixes move variable-sized blocks of data.
 
