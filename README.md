@@ -41,3 +41,55 @@ count MPI_Get_count(&status, MPI_FLOAT, &true_received_count);
 received_source = status.MPI_SOURCE;
 received_tag = status.MPI_TAG;
 MPI_Recv blocks until the data transfer is complete and the received_data variable is available for use.
+
+
+
+
+##Collective data movement
+There are several routines for performing collective data distribution tasks:
+####MPI_Bcast
+Broadcast data to other processes 
+####MPI_Gather, MPI_Gatherv
+Gather data from participating processes into a single structure
+####MPI_Scatter, MPI_Scatter
+Break a structure into portions and distribute those portions to other processes
+####MPI_Allgather, MPI_Allgatherv
+Gather data from different processes into a single structure that is then sent to all participants (Gather-to-all)
+####MPI_Alltoall, MPI_Alltoallv
+Gather data and then scatter it to all participants (All-to-all scatter/gather)
+The routines with "V" suffixes move variable-sized blocks of data.
+
+The subroutine MPI_Bcast sends a message from one process to all processes in a communicator.
+
+int MPI_Bcast(void *data_to_be_sent, int send_count, MPI_Datatype send_type, 
+      int broadcasting_process_ID, MPI_Comm comm);
+When processes are ready to share information with other processes as part of a broadcast, ALL of them must execute a call to MPI_BCAST. There is no separate MPI call to receive a broadcast.
+
+MPI_Bcast could have been used in the program sumarray_mpi presented earlier, in place of the MPI_Send loop that distributed data to each process. Doing so would have resulted in excessive data movement, of course. A better solution would be MPI_Scatter or MPI_Scatterv.
+
+The subroutines MPI_Scatter and MPI_Scatterv take an input array, break the input data into separate portions and send a portion to each one of the processes in a communicating group.
+
+int MPI_Scatter(void *send_data, int send_count, MPI_Datatype send_type, 
+      void *receive_data, int receive_count, MPI_Datatype receive_type, 
+      int sending_process_ID, MPI_Comm comm); 
+or
+
+int MPI_Scatterv(void *send_data, int *send_count_array, int *send_start_array, 
+      MPI_Datatype send_type, void *receive_data, int receive_count, 
+      MPI_Datatype receive_type, int sender_process_ID, MPI_Comm comm);
+- data_to_send: variable of a C type that corresponds to the MPI send_type supplied below
+- send_count: number of data elements to send (int)
+- send_count_array: array with an entry for each participating process containing the number of data elements - to send to that process (int)
+- send_start_array: array with an entry for each participating process containing the displacement relative to the start of data_to_send for each data segment to send (int)
+- send_type: datatype of elements to send (one of the MPI datatype handles) 
+
+- receive_data: variable of a C type that corresponds to the MPI receive_type supplied below
+- receive_count: number of data elements to receive (int)
+- receive_type: datatype of elements to receive (one of the MPI datatype handles)
+- sender_ID: process ID of the sender (int)
+- receive_tag: receive tag (int)
+- comm: communicator (handle)
+- status: status object (MPI_Status)
+The routine MPI_Scatterv could have been used in the program sumarray_mpi presented earlier, in place of the MPI_Send loop that distributed data to each process.
+
+MPI_Bcast, MPI_Scatter, and other collective routines build a communication tree among the participating processes to minimize message traffic. If there are N processes involved, there would normally be N-1 transmissions during a broadcast operation, but if a tree is built so that the broadcasting process sends the broadcast to 2 processes, and they each send it on to 2 other processes, the total number of messages transferred is only O(ln N).

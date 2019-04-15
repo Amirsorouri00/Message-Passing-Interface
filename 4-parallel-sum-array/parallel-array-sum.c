@@ -47,8 +47,8 @@ int main(int argc, char **argv)
         scanf("%i", &num_rows);
     
         if(num_rows > max_rows) {
-        printf("Too many numbers.\n");
-        exit(1);
+            printf("Too many numbers.\n");
+            exit(1);
         }
 
         avg_rows_per_process = num_rows / num_procs;
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
         /* initialize an array */
 
         for(i = 0; i < num_rows; i++) {
-        array[i] = i + 1;
+            array[i] = i + 1;
         }
 
         /* distribute a portion of the bector to each child process */
